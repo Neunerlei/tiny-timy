@@ -63,7 +63,7 @@ class DateTimy extends DateTime {
 	
 	/**
 	 * The existing formats we can handle internally
-	 * @var array
+	 * @var string[]
 	 */
 	protected static $formats = [
 		self::FORMAT_TYPE_DATE_AND_TIME => "Y.m.d H:i",
@@ -73,6 +73,20 @@ class DateTimy extends DateTime {
 		self::FORMAT_TYPE_SQL_DATE      => "Y-m-d",
 		self::FORMAT_TYPE_JS            => "D M d Y H:i:s O",
 		self::FORMAT_TYPE_RSS           => "D, d M Y H:i:s T",
+	];
+	
+	/**
+	 * Determines if a registered format should be localized or not
+	 * @var array
+	 */
+	protected static $formatLocalization = [
+		self::FORMAT_TYPE_DATE_AND_TIME => TRUE,
+		self::FORMAT_TYPE_DATE          => TRUE,
+		self::FORMAT_TYPE_TIME          => TRUE,
+		self::FORMAT_TYPE_SQL           => FALSE,
+		self::FORMAT_TYPE_SQL_DATE      => FALSE,
+		self::FORMAT_TYPE_JS            => FALSE,
+		self::FORMAT_TYPE_RSS           => FALSE,
 	];
 	
 	/**
@@ -145,11 +159,16 @@ class DateTimy extends DateTime {
 	/**
 	 * Can be used to change the date formats to match your needs
 	 *
-	 * @param string $type   The type of the format one of the FORMAT_TYPE_ constants
-	 * @param string $format The valid format() string that should be applied for the type
+	 * @param string      $type     The type of the format one of the FORMAT_TYPE_ constants
+	 * @param string|null $format   The valid format() string that should be applied for the type
+	 *                              NULL to skip the format input -> if you want to toggle $localize
+	 * @param bool        $localize True to use the localization when this format is applied
+	 *                              false to use the english as language for this format
 	 */
-	public static function configureFormat(string $type, string $format): void {
-		static::$formats[$type] = $format;
+	public static function configureFormat(string $type, ?string $format, bool $localize = TRUE): void {
+		if ($format !== NULL)
+			static::$formats[$type] = $format;
+		static::$formatLocalization[$type] = $localize;
 	}
 	
 	/**
@@ -197,7 +216,7 @@ class DateTimy extends DateTime {
 	 * @return string|null
 	 */
 	public static function getFormat(string $type): ?string {
-		return isset(static::$formats[$type]) ? static::$formats[$type] : NULL;
+		return static::$formats[$type] ?? NULL;
 	}
 	
 	/**
@@ -235,7 +254,8 @@ class DateTimy extends DateTime {
 	 * @inheritDoc
 	 */
 	public function format($format) {
-		if (is_string($format) && !empty(static::getFormat($format))) $format = static::getFormat($format);
+		if (is_string($format) && !empty(static::getFormat($format)))
+			$format = (string)static::getFormat($format);
 		return parent::format($format);
 	}
 	
@@ -250,7 +270,7 @@ class DateTimy extends DateTime {
 	 * @return string
 	 */
 	public function formatLocalized(string $format): string {
-		if (!empty(static::getFormat($format))) $format = static::getFormat($format);
+		if (!empty(static::getFormat($format))) $format = (string)static::getFormat($format);
 		$format = preg_replace_callback('/(?<!\\\\)[FlMD]/s', function ($v) {
 			return preg_replace('/(.)/', '\\\\$1',
 				strftime(
@@ -275,11 +295,11 @@ class DateTimy extends DateTime {
 	 * @return string|null
 	 */
 	public function __call($name, $arguments) {
-		if (substr($name, 0, 6) !== "format") return NULL;
+		if (strpos($name, "format") !== 0) return NULL;
 		$type = lcfirst(substr($name, 6));
-		if (empty($this->getFormat($type)))
+		if (empty(self::getFormat($type)))
 			throw new BadMethodCallException("There is no format for type: \"$type\"");
-		return $this->formatLocalized($type);
+		return static::$formatLocalization[$type] ? $this->formatLocalized($type) : $this->format($type);
 	}
 	
 	/**
