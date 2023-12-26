@@ -1,9 +1,10 @@
 name: Create new Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - 'composer.json'
       - 'package.json'
