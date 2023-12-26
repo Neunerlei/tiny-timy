@@ -42,7 +42,7 @@ jobs:
 
       -
         name: Run PHPunit
-        run: composer run test-cover-clover
+        run: composer run test:unit:coverage:clover
   
   release:
     runs-on: ubuntu-latest
