@@ -22,7 +22,7 @@
 		"source": "https://github.com/neunerlei/tiny-timy"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^9.0",
+		"phpunit/phpunit": "^9.6",
 		"neunerlei/dbg": "^2.1.0"
 	},
 	"require": {
@@ -33,8 +33,14 @@
 			"Neunerlei\\TinyTimy\\": "Classes"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Neunerlei\\TinyTimy\\Tests\\": "Tests"
+		}
+	},
 	"scripts": {
-		"test": "vendor/bin/phpunit Tests"
+		"test:unit": "phpunit Tests",
+		"test:unit:coverage": "XDEBUG_MODE=coverage phpunit --testsuite unit --coverage-html ./.phpunit.coverage"
 	},
 	"version": "1.1.1",
 	"config": {

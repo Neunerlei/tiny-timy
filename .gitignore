@@ -9,3 +9,7 @@ docs/node_modules
 !.idea/copyright/*
 !.idea/codeStyles/
 !.idea/codeStyles/*
+
+# PhpUnit
+.phpunit.coverage
+.phpunit.result.cache

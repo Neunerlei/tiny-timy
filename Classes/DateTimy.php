@@ -119,14 +119,19 @@ class DateTimy extends DateTime {
 		
 		// Check if we have to apply a special format
 		if (!empty($format) && !is_numeric($time)) {
+            $f = $format;
 			if (!empty(static::getFormat($format))) $format = static::getFormat($format);
 			try {
 				$timeParsed = parent::createFromFormat($format, $time, $timezone);
-			} catch (Throwable $e) {
+                // @codeCoverageIgnoreStart
+                // I am not sure when this can happen, but I will keep it until the next major version bump
+            } catch (Throwable $e) {
 				$timeParsed = FALSE;
-				if ($format !== "Y-m-d H:i:s")
-					$timeParsed = parent::createFromFormat("Y-m-d H:i:s", $time, $timezone);
 			}
+            // @codeCoverageIgnoreEnd
+            if($timeParsed === FALSE && $format !== "Y-m-d H:i:s"){
+                $timeParsed = parent::createFromFormat("Y-m-d H:i:s", $time, $timezone);
+            }
 			if ($timeParsed !== FALSE) $time = $timeParsed->getTimestamp();
 		}
 		
