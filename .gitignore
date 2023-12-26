@@ -1,6 +1,5 @@
 .settings/
 .DS_Store
-.env
 vendor
 docs/node_modules
 
