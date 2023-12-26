@@ -42,7 +42,7 @@
 		"test:unit:coverage": "XDEBUG_MODE=coverage phpunit --testsuite unit --coverage-html ./.phpunit.coverage",
 		"test:unit:coverage:clover": "XDEBUG_MODE=coverage phpunit --testsuite unit --coverage-clover Tests/Coverage.xml"
 	},
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"archive": {
 		"exclude": [
 			"bin",
