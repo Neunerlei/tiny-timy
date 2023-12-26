@@ -23,7 +23,7 @@
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^9.6",
-		"neunerlei/dbg": "^2.1.0"
+		"neunerlei/dbg": "*"
 	},
 	"require": {
 		"php": ">=7.3 <=8.3"
