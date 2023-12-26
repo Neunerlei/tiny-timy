@@ -30,7 +30,7 @@ So by default all new instances of the DateTimy class will be set to the "server
 The given $time given to the constructor is also assumed to be in the "server" timezone until you provide another timezone manually.
 
 If you want to convert the timezone to your client's needs you can use the "toClient()" method.
-By default the "client" timezone is defined by date_default_timezone_get() until you manually change it.
+By default, the "client" timezone is defined by date_default_timezone_get() until you manually change it.
 
 To configure the timezones you can use the static configureTimezone() method to set both timezones to your needs.
 
