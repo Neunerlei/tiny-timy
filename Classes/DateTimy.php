@@ -150,6 +150,7 @@ class DateTimy extends DateTime
      * @inheritDoc
      * @return self|false
      */
+    #[\ReturnTypeWillChange]
     public static function createFromFormat($format, $datetime, ?DateTimeZone $timezone = NULL)
     {
         return new static($datetime, $timezone, (string)$format);
@@ -159,6 +160,7 @@ class DateTimy extends DateTime
      * @inheritDoc
      * @return self
      */
+    #[\ReturnTypeWillChange]
     public static function createFromImmutable(DateTimeImmutable $object): self
     {
         return new static($object);
