@@ -10,9 +10,6 @@ services:
         - DOCKER_GID=${DOCKER_GID:-1000}
         - DOCKER_UID=${DOCKER_UID:-1000}
     user: "${DOCKER_USER:-1000:1000}"
-    environment:
-      COMPOSER_HOME: /opt/composer
-      COMPOSER_MAX_PARALLEL_HTTP: 1
     tty: true # Keeps the container running indefinitely
     volumes:
       - './:/opt/project'
