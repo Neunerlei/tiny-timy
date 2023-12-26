@@ -72,6 +72,7 @@ $date = new DateTimy(new DateTime());
 ```
 
 ##### Timezone from string
+
 The constructor can now handle timezones based on a string as well as the default DateTimeZone() objects.
 ```php
 use Neunerlei\TinyTimy\DateTimy;
