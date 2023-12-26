@@ -38,7 +38,7 @@
 		}
 	},
 	"scripts": {
-		"test:unit": "phpunit unit",
+		"test:unit": "phpunit --testsuite unit",
 		"test:unit:coverage": "XDEBUG_MODE=coverage phpunit --testsuite unit --coverage-html ./.phpunit.coverage",
 		"test:unit:coverage:clover": "XDEBUG_MODE=coverage phpunit --testsuite unit --coverage-clover Tests/Coverage.xml"
 	},

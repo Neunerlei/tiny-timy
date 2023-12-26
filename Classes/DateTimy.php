@@ -1,22 +1,4 @@
 <?php
-/**
- * Copyright 2020 Martin Neundorfer (Neunerlei)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Last modified: 2020.03.12 at 15:06
- */
-
 declare(strict_types=1);
 
 namespace Neunerlei\TinyTimy;
@@ -168,18 +150,18 @@ class DateTimy extends DateTime
      * @inheritDoc
      * @return self|false
      */
-    public static function createFromFormat($format, $time, ?DateTimeZone $timezone = NULL)
+    public static function createFromFormat($format, $datetime, ?DateTimeZone $timezone = NULL)
     {
-        return new static($time, $timezone, (string)$format);
+        return new static($datetime, $timezone, (string)$format);
     }
 
     /**
      * @inheritDoc
      * @return self
      */
-    public static function createFromImmutable($dateTimeImmutable): self
+    public static function createFromImmutable(DateTimeImmutable $object): self
     {
-        return new static($dateTimeImmutable);
+        return new static($object);
     }
 
     /**
@@ -270,7 +252,7 @@ class DateTimy extends DateTime
      * Returns a new instance with the same values, but converted to the server time zone
      * @return self
      */
-    public function toServerTimezone(): DateTimy
+    public function toServerTimezone(): self
     {
         $this->setTimezone(static::getServerTimezone());
 
@@ -281,7 +263,7 @@ class DateTimy extends DateTime
      * Returns a new instance with the same values, but converted to the client time zone
      * @return self
      */
-    public function toClientTimezone(): DateTimy
+    public function toClientTimezone(): self
     {
         $this->setTimezone(static::getClientTimeZone());
 
@@ -295,7 +277,7 @@ class DateTimy extends DateTime
      *
      * @return self
      */
-    public function setTimezone($timezone)
+    public function setTimezone($timezone): self
     {
         if (is_string($timezone)) {
             $timezone = new DateTimeZone($timezone);
@@ -309,7 +291,7 @@ class DateTimy extends DateTime
     /**
      * @inheritDoc
      */
-    public function format($format)
+    public function format($format): string
     {
         if (is_string($format) && !empty(static::getFormat($format))) {
             $format = (string)static::getFormat($format);
